@@ -12,13 +12,54 @@ using System.IO.Ports;
 
 namespace scom
 {
+    
     public partial class Form1 : Form
     {
+        // constants
+        enum BAUD
+        {
+            B1200 = 0,
+            B2400,
+            B4800,
+            B9600,
+            B19200,
+            B38400,
+            B54600,
+            B115200,
+            NUM_OF_BAUDS,
+        };
+
+        enum FRAME
+        {
+            D8PNS1 = 0,
+            D8PNS2,
+            D8POS1,
+            D8POS2,
+            D8PES1,
+            D8PES2,
+            NUM_OF_FRAMES,
+        };
+
+        enum TERM
+        {
+            NONE = 0,
+            CR,
+            LF,
+            CRLF,
+            NUM_OF_TERMS,
+        };
+
+        
+        private readonly string[] BAUDS_DISP = new string[(int)BAUD.NUM_OF_BAUDS]{ "1200", "2400", "4800", "9600", "19200", "38400", "54600", "115200" };
+        private readonly string[] FRAMES_DISP = new string[(int)FRAME.NUM_OF_FRAMES]{ "8N1", "8N2", "8O1", "8O2", "8E1", "8E2" };
+        private readonly string[] TERMS_DISP = new string[(int)TERM.NUM_OF_TERMS]{ "NONE", "CR", "LF", "CRLF" };
+        private readonly string[] TERMS_STR = new string[(int)TERM.NUM_OF_TERMS] { "", "\r", "\n", "\r\n" };
+        
         public Form1()
         {
             InitializeComponent();
         }
-
+                
         delegate void AppendTextCallback(string text);
 
         private void AppendText(string text)
@@ -42,36 +83,36 @@ namespace scom
             serialPort1.BaudRate = baud;
         }
 
-        private void SetFrame(string frame)
+        private void SetFrame(int frame)
         {
-            switch (frame)
+            switch ((FRAME)frame)
             {
-                case "8N1":
+                case FRAME.D8PNS1:
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = Parity.None;
                     serialPort1.StopBits = StopBits.One;
                     break;
-                case "8N2":
+                case FRAME.D8PNS2:
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = Parity.None;
                     serialPort1.StopBits = StopBits.Two;
                     break;
-                case "8O1":
+                case FRAME.D8POS1:
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = Parity.Odd;
                     serialPort1.StopBits = StopBits.One;
                     break;
-                case "8O2":
+                case FRAME.D8POS2:
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = Parity.Odd;
                     serialPort1.StopBits = StopBits.Two;
                     break;
-                case "8E1":
+                case FRAME.D8PES1:
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = Parity.Even;
                     serialPort1.StopBits = StopBits.One;
                     break;
-                case "8E2":
+                case FRAME.D8PES2:
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = Parity.Even;
                     serialPort1.StopBits = StopBits.Two;
@@ -100,17 +141,14 @@ namespace scom
         {
             comboBox1_DropDown(sender, e);
 
-            string[] bauds = { "1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200" };
-            comboBox2.Items.AddRange(bauds);
-            comboBox2.SelectedIndex = 3;
+            comboBox2.Items.AddRange(BAUDS_DISP);
+            comboBox2.SelectedIndex = (int)BAUD.B9600;
 
-            string[] frames = { "8N1", "8N2", "8E1", "8E2", "8O1", "8O2" };
-            comboBox3.Items.AddRange(frames);
-            comboBox3.SelectedIndex = 0;
+            comboBox3.Items.AddRange(FRAMES_DISP);
+            comboBox3.SelectedIndex = (int)FRAME.D8PNS1;
 
-            string[] terms = { "NONE", "CR", "LF", "CRLF" };
-            comboBox4.Items.AddRange(terms);
-            comboBox4.SelectedIndex = 1;
+            comboBox4.Items.AddRange(TERMS_DISP);
+            comboBox4.SelectedIndex = (int)TERM.CR;
 
         }
 
@@ -138,15 +176,15 @@ namespace scom
                 try {
                     serialPort1.PortName = comboBox1.Text;
                     SetBaud(int.Parse(comboBox2.Text));
-                    SetFrame(comboBox3.Text);
+                    SetFrame(comboBox3.SelectedIndex);
 
                     serialPort1.Open();
                     button1.Text = "disconnect"; 
                     comboBox1.Enabled = false;
                 }
-                catch (Exception exc)
+                catch (Exception excpt)
                 {
-                    MessageBox.Show(exc.ToString(), "error");
+                    MessageBox.Show(excpt.Message, "error");
                 }
                 
             }
@@ -156,9 +194,9 @@ namespace scom
                 {
                     serialPort1.Close();
                 }
-                catch (Exception exc)
+                catch (Exception excpt)
                 {
-                    MessageBox.Show(exc.ToString(), "error");
+                    MessageBox.Show(excpt.Message, "error");
                 }
                 finally
                 {
@@ -198,27 +236,14 @@ namespace scom
             {
                 if (serialPort1.IsOpen)
                 {
-                    string term = "";
+                    string term = TERMS_STR[comboBox4.SelectedIndex];
                     try
                     {
-                        serialPort1.Write(textBox2.Text);
-                        switch (comboBox4.Text)
-                        {
-                            case "CR":
-                                term = "\r";
-                                break;
-                            case "LF":
-                                term = "\n";
-                                break;
-                            case "CRLF":
-                                term = "\r\n";
-                                break;
-                        }
-                        serialPort1.Write(term);
+                        serialPort1.Write(textBox2.Text + term);
                     }
-                    catch (Exception exc)
+                    catch (Exception excpt)
                     {
-                        MessageBox.Show(exc.ToString(), "error");
+                        MessageBox.Show(excpt.Message, "error");
                     }
                     finally
                     {
@@ -252,7 +277,7 @@ namespace scom
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetFrame(comboBox3.Text);
+            SetFrame(comboBox3.SelectedIndex);
         }
 
         private void aSCIIToolStripMenuItem_Click(object sender, EventArgs e)
@@ -290,6 +315,11 @@ namespace scom
                     AppendText(text);
                 }
             }
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Clear();
         }
     }
 }
