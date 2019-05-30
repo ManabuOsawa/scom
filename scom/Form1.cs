@@ -53,7 +53,14 @@ namespace scom
         private readonly string[] BAUDS_DISP = new string[(int)BAUD.NUM_OF_BAUDS]{ "1200", "2400", "4800", "9600", "19200", "38400", "54600", "115200" };
         private readonly string[] FRAMES_DISP = new string[(int)FRAME.NUM_OF_FRAMES]{ "8N1", "8N2", "8O1", "8O2", "8E1", "8E2" };
         private readonly string[] TERMS_DISP = new string[(int)TERM.NUM_OF_TERMS]{ "NONE", "CR", "LF", "CRLF" };
-        private readonly string[] TERMS_STR = new string[(int)TERM.NUM_OF_TERMS] { "", "\r", "\n", "\r\n" };
+        private readonly string[] TERMS_STR = new string[(int)TERM.NUM_OF_TERMS]{ "", "\r", "\n", "\r\n" };
+
+        // variables
+        private string appPath;
+        private string appName;
+        private string appNameWoExt;
+        
+        private StreamWriter streamWriterLog = null;
         
         public Form1()
         {
@@ -64,17 +71,20 @@ namespace scom
 
         private void AppendText(string text)
         {
-            if (richTextBox1.InvokeRequired)
+            if (richTextBoxSCREEN.InvokeRequired)
             {
                 AppendTextCallback d = new AppendTextCallback(AppendText);
                 BeginInvoke(d, new object[] { text });
             }
             else
             {
-                richTextBox1.Focus();
-                richTextBox1.AppendText(text);
-                textBox2.Focus();
-
+                richTextBoxSCREEN.Focus();
+                richTextBoxSCREEN.AppendText(text);
+                if (streamWriterLog != null)
+                {
+                    streamWriterLog.Write(text);
+                }
+                textBoxCOMMAND.Focus();
             }
         }
 
@@ -139,48 +149,68 @@ namespace scom
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1_DropDown(sender, e);
+            appPath = Application.ExecutablePath;
+            appName = Path.GetFileName(appPath);
+            appNameWoExt = Path.ChangeExtension(appName, null);
+            this.Text = appNameWoExt;
+            comboBoxCOM_DropDown(sender, e);
 
-            comboBox2.Items.AddRange(BAUDS_DISP);
-            comboBox2.SelectedIndex = (int)BAUD.B9600;
+            comboBoxBAUD.Items.AddRange(BAUDS_DISP);
+            comboBoxBAUD.SelectedIndex = (int)BAUD.B9600;
 
-            comboBox3.Items.AddRange(FRAMES_DISP);
-            comboBox3.SelectedIndex = (int)FRAME.D8PNS1;
+            comboBoxFRAME.Items.AddRange(FRAMES_DISP);
+            comboBoxFRAME.SelectedIndex = (int)FRAME.D8PNS1;
 
-            comboBox4.Items.AddRange(TERMS_DISP);
-            comboBox4.SelectedIndex = (int)TERM.CR;
+            comboBoxTERM.Items.AddRange(TERMS_DISP);
+            comboBoxTERM.SelectedIndex = (int)TERM.CR;
 
         }
 
-        private void comboBox1_DropDown(object sender, EventArgs e)
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (serialPort1.IsOpen)
+            {
+                try
+                {
+                    serialPort1.Close();
+                    streamWriterLog.Dispose();
+                }
+                catch
+                {
+                    ; // nothing to do
+                }
+            }
+        }
+
+        private void comboBoxCOM_DropDown(object sender, EventArgs e)
         {
             string[] ports = SerialPort.GetPortNames();
-            comboBox1.Items.Clear();
+            comboBoxCOM.Items.Clear();
 
             int num = ports.Length;
             if (num != 0)
             {
-                comboBox1.Items.AddRange(ports);
-                comboBox1.SelectedIndex = 0;
+                comboBoxCOM.Items.AddRange(ports);
+                comboBoxCOM.SelectedIndex = 0;
             }
             else
             {
-                comboBox1.Text = "NONE";
+                comboBoxCOM.Text = "NONE";
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonCONNECT_Click(object sender, EventArgs e)
         {
             if (!serialPort1.IsOpen)
             {
                 try {
-                    serialPort1.PortName = comboBox1.Text;
-                    SetBaud(int.Parse(comboBox2.Text));
-                    SetFrame(comboBox3.SelectedIndex);
+                    serialPort1.PortName = comboBoxCOM.Text;
+                    SetBaud(int.Parse(comboBoxBAUD.Text));
+                    SetFrame(comboBoxFRAME.SelectedIndex);
 
                     serialPort1.Open();
-                    button1.Text = "disconnect"; 
-                    comboBox1.Enabled = false;
+                    buttonCONNECT.Text = "disconnect"; 
+                    comboBoxCOM.Enabled = false;
                 }
                 catch (Exception excpt)
                 {
@@ -200,8 +230,8 @@ namespace scom
                 }
                 finally
                 {
-                    button1.Text = "connect";
-                    comboBox1.Enabled = true;
+                    buttonCONNECT.Text = "connect";
+                    comboBoxCOM.Enabled = true;
                 }
             }
         }
@@ -225,21 +255,32 @@ namespace scom
             {
                 text = Encoding.UTF8.GetString(buffer);
             }
+
+            if (timeStampToolStripMenuItem.Checked)
+            {
+                DateTime dt = DateTime.Now;
+                AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]\r\n");
+            }
+                        
+            if (rXToolStripMenuItem.Checked)
+            {
+                AppendText("[RX]\r\n");
+            }
             AppendText(text);
         }
 
         
 
-        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBoxCOMMAND_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
                 if (serialPort1.IsOpen)
                 {
-                    string term = TERMS_STR[comboBox4.SelectedIndex];
+                    string term = TERMS_STR[comboBoxTERM.SelectedIndex];
                     try
                     {
-                        serialPort1.Write(textBox2.Text + term);
+                        serialPort1.Write(textBoxCOMMAND.Text + term);
                     }
                     catch (Exception excpt)
                     {
@@ -247,37 +288,33 @@ namespace scom
                     }
                     finally
                     {
-                        AppendText(textBox2.Text + term);
-                        textBox2.Clear();
+                        if (timeStampToolStripMenuItem.Checked)
+                        {
+                            DateTime dt = DateTime.Now;
+                            AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]\r\n");
+                        }
+                        if (tXToolStripMenuItem.Checked)
+                        {
+                            AppendText("[TX]\r\n");
+                        }
+                        AppendText(textBoxCOMMAND.Text + term);
+                        textBoxCOMMAND.Clear();
                     }
                 }
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        
+
+
+        private void comboBoxBAUD_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (serialPort1.IsOpen)
-            {
-                try
-                {
-                    serialPort1.Close();
-                }
-                catch
-                {
-                    ; // nothing to do
-                }
-            }
+            SetBaud(int.Parse(comboBoxBAUD.Text));
         }
 
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxFRAME_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetBaud(int.Parse(comboBox2.Text));
-        }
-
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetFrame(comboBox3.SelectedIndex);
+            SetFrame(comboBoxFRAME.SelectedIndex);
         }
 
         private void aSCIIToolStripMenuItem_Click(object sender, EventArgs e)
@@ -298,7 +335,7 @@ namespace scom
         private void transferToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = @"C:\";
+            ofd.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             ofd.Filter = "text file(*.txt)|*.txt";
             ofd.FilterIndex = 0;
             ofd.Title = "select file";
@@ -317,9 +354,77 @@ namespace scom
             }
         }
 
+        private void logToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (logToolStripMenuItem.Checked == false)
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                ofd.Filter = "any file(*.*)|*.*";
+                ofd.FilterIndex = 0;
+                ofd.Title = "log file";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        System.Text.Encoding enc;
+                        if (aSCIIToolStripMenuItem.Checked)
+                        {
+                            enc = new System.Text.ASCIIEncoding();
+                        }
+                        else if (shiftJISToolStripMenuItem.Checked)
+                        {
+                            enc = Encoding.GetEncoding("Shift_JIS");
+                        }
+                        else
+                        {
+                            enc = new System.Text.UTF8Encoding(false); // without BOM
+                        }
+                        
+                        streamWriterLog = new StreamWriter(ofd.FileName, true, enc);
+                        logToolStripMenuItem.Checked = true;
+                        this.Text += ":" + ((FileStream)(streamWriterLog.BaseStream)).Name;
+                    }
+                    catch (Exception excpt)
+                    {
+                        MessageBox.Show(excpt.Message, "error");
+                    }
+                }
+            }
+            else
+            {
+                streamWriterLog.Dispose();
+                streamWriterLog = null;
+                logToolStripMenuItem.Checked = false;
+                this.Text = appNameWoExt;
+            }
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            richTextBox1.Clear();
+            richTextBoxSCREEN.Clear();
+        }
+
+        private void tXToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tXToolStripMenuItem.Checked = !tXToolStripMenuItem.Checked;
+        }
+
+        private void rXToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rXToolStripMenuItem.Checked = !rXToolStripMenuItem.Checked;
+        }
+
+        private void timeStampToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timeStampToolStripMenuItem.Checked = !timeStampToolStripMenuItem.Checked;
         }
     }
 }
