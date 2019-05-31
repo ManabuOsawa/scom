@@ -31,7 +31,13 @@ namespace scom
 
         enum FRAME
         {
-            D8PNS1 = 0,
+            D7PNS1 = 0,
+            D7PNS2,
+            D7POS1,
+            D7POS2,
+            D7PES1,
+            D7PES2,
+            D8PNS1,
             D8PNS2,
             D8POS1,
             D8POS2,
@@ -51,7 +57,7 @@ namespace scom
 
         
         private readonly string[] BAUDS_DISP = new string[(int)BAUD.NUM_OF_BAUDS]{ "1200", "2400", "4800", "9600", "19200", "38400", "54600", "115200" };
-        private readonly string[] FRAMES_DISP = new string[(int)FRAME.NUM_OF_FRAMES]{ "8N1", "8N2", "8O1", "8O2", "8E1", "8E2" };
+        private readonly string[] FRAMES_DISP = new string[(int)FRAME.NUM_OF_FRAMES]{ "7N1", "7N2", "7O1", "7O2", "7E1", "7E2", "8N1", "8N2", "8O1", "8O2", "8E1", "8E2" };
         private readonly string[] TERMS_DISP = new string[(int)TERM.NUM_OF_TERMS]{ "NONE", "CR", "LF", "CRLF" };
         private readonly string[] TERMS_STR = new string[(int)TERM.NUM_OF_TERMS]{ "", "\r", "\n", "\r\n" };
 
@@ -97,6 +103,36 @@ namespace scom
         {
             switch ((FRAME)frame)
             {
+                case FRAME.D7PNS1:
+                    serialPort1.DataBits = 7;
+                    serialPort1.Parity = Parity.None;
+                    serialPort1.StopBits = StopBits.One;
+                    break;
+                case FRAME.D7PNS2:
+                    serialPort1.DataBits = 7;
+                    serialPort1.Parity = Parity.None;
+                    serialPort1.StopBits = StopBits.Two;
+                    break;
+                case FRAME.D7POS1:
+                    serialPort1.DataBits = 7;
+                    serialPort1.Parity = Parity.Odd;
+                    serialPort1.StopBits = StopBits.One;
+                    break;
+                case FRAME.D7POS2:
+                    serialPort1.DataBits = 7;
+                    serialPort1.Parity = Parity.Odd;
+                    serialPort1.StopBits = StopBits.Two;
+                    break;
+                case FRAME.D7PES1:
+                    serialPort1.DataBits = 7;
+                    serialPort1.Parity = Parity.Even;
+                    serialPort1.StopBits = StopBits.One;
+                    break;
+                case FRAME.D7PES2:
+                    serialPort1.DataBits = 7;
+                    serialPort1.Parity = Parity.Even;
+                    serialPort1.StopBits = StopBits.Two;
+                    break;
                 case FRAME.D8PNS1:
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = Parity.None;
@@ -426,6 +462,7 @@ namespace scom
         {
             timeStampToolStripMenuItem.Checked = !timeStampToolStripMenuItem.Checked;
         }
+
     }
 }
 

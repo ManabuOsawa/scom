@@ -47,14 +47,14 @@
             this.aSCIIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shiftJISToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.identifierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeStampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -208,7 +208,7 @@
             // shiftJISToolStripMenuItem
             // 
             this.shiftJISToolStripMenuItem.Name = "shiftJISToolStripMenuItem";
-            this.shiftJISToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.shiftJISToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.shiftJISToolStripMenuItem.Text = "ShiftJIS";
             this.shiftJISToolStripMenuItem.Click += new System.EventHandler(this.shiftJISToolStripMenuItem_Click);
             // 
@@ -217,9 +217,40 @@
             this.uTF8ToolStripMenuItem.Checked = true;
             this.uTF8ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uTF8ToolStripMenuItem.Name = "uTF8ToolStripMenuItem";
-            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.uTF8ToolStripMenuItem.Text = "UTF-8";
             this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.uTF8ToolStripMenuItem_Click);
+            // 
+            // identifierToolStripMenuItem
+            // 
+            this.identifierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tXToolStripMenuItem,
+            this.rXToolStripMenuItem,
+            this.timeStampToolStripMenuItem});
+            this.identifierToolStripMenuItem.Name = "identifierToolStripMenuItem";
+            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.identifierToolStripMenuItem.Text = "Identifier";
+            // 
+            // tXToolStripMenuItem
+            // 
+            this.tXToolStripMenuItem.Name = "tXToolStripMenuItem";
+            this.tXToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.tXToolStripMenuItem.Text = "TX";
+            this.tXToolStripMenuItem.Click += new System.EventHandler(this.tXToolStripMenuItem_Click);
+            // 
+            // rXToolStripMenuItem
+            // 
+            this.rXToolStripMenuItem.Name = "rXToolStripMenuItem";
+            this.rXToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.rXToolStripMenuItem.Text = "RX";
+            this.rXToolStripMenuItem.Click += new System.EventHandler(this.rXToolStripMenuItem_Click);
+            // 
+            // timeStampToolStripMenuItem
+            // 
+            this.timeStampToolStripMenuItem.Name = "timeStampToolStripMenuItem";
+            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.timeStampToolStripMenuItem.Text = "TimeStamp";
+            this.timeStampToolStripMenuItem.Click += new System.EventHandler(this.timeStampToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem
             // 
@@ -247,39 +278,8 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(119, 22);
-            this.toolStripMenuItem2.Text = "19.5.30";
-            // 
-            // identifierToolStripMenuItem
-            // 
-            this.identifierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tXToolStripMenuItem,
-            this.rXToolStripMenuItem,
-            this.timeStampToolStripMenuItem});
-            this.identifierToolStripMenuItem.Name = "identifierToolStripMenuItem";
-            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.identifierToolStripMenuItem.Text = "Identifier";
-            // 
-            // tXToolStripMenuItem
-            // 
-            this.tXToolStripMenuItem.Name = "tXToolStripMenuItem";
-            this.tXToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.tXToolStripMenuItem.Text = "TX";
-            this.tXToolStripMenuItem.Click += new System.EventHandler(this.tXToolStripMenuItem_Click);
-            // 
-            // rXToolStripMenuItem
-            // 
-            this.rXToolStripMenuItem.Name = "rXToolStripMenuItem";
-            this.rXToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.rXToolStripMenuItem.Text = "RX";
-            this.rXToolStripMenuItem.Click += new System.EventHandler(this.rXToolStripMenuItem_Click);
-            // 
-            // timeStampToolStripMenuItem
-            // 
-            this.timeStampToolStripMenuItem.Name = "timeStampToolStripMenuItem";
-            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.timeStampToolStripMenuItem.Text = "TimeStamp";
-            this.timeStampToolStripMenuItem.Click += new System.EventHandler(this.timeStampToolStripMenuItem_Click);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Text = "19.5.31";
             // 
             // Form1
             // 
