@@ -55,6 +55,8 @@ namespace scom
             NUM_OF_TERMS,
         };
 
+        private readonly int MAX_COMMAND_HISTORY = 20;
+
         
         private readonly string[] BAUDS_DISP = new string[(int)BAUD.NUM_OF_BAUDS]{ "1200", "2400", "4800", "9600", "19200", "38400", "54600", "115200" };
         private readonly string[] FRAMES_DISP = new string[(int)FRAME.NUM_OF_FRAMES]{ "7N1", "7N2", "7O1", "7O2", "7E1", "7E2", "8N1", "8N2", "8O1", "8O2", "8E1", "8E2" };
@@ -90,7 +92,7 @@ namespace scom
                 {
                     streamWriterLog.Write(text);
                 }
-                textBoxCOMMAND.Focus();
+                comboBoxCOMMAND.Focus();
             }
         }
 
@@ -305,43 +307,6 @@ namespace scom
             AppendText(text);
         }
 
-        
-
-        private void textBoxCOMMAND_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                if (serialPort1.IsOpen)
-                {
-                    string term = TERMS_STR[comboBoxTERM.SelectedIndex];
-                    try
-                    {
-                        serialPort1.Write(textBoxCOMMAND.Text + term);
-                    }
-                    catch (Exception excpt)
-                    {
-                        MessageBox.Show(excpt.Message, "error");
-                    }
-                    finally
-                    {
-                        if (timeStampToolStripMenuItem.Checked)
-                        {
-                            DateTime dt = DateTime.Now;
-                            AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]\r\n");
-                        }
-                        if (tXToolStripMenuItem.Checked)
-                        {
-                            AppendText("[TX]\r\n");
-                        }
-                        AppendText(textBoxCOMMAND.Text + term);
-                        textBoxCOMMAND.Clear();
-                    }
-                }
-            }
-        }
-
-        
-
 
         private void comboBoxBAUD_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -461,6 +426,45 @@ namespace scom
         private void timeStampToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timeStampToolStripMenuItem.Checked = !timeStampToolStripMenuItem.Checked;
+        }
+
+        private void comboBoxCOMMAND_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                if (serialPort1.IsOpen)
+                {
+                    string term = TERMS_STR[comboBoxTERM.SelectedIndex];
+                    try
+                    {
+                        serialPort1.Write(comboBoxCOMMAND.Text + term);
+                    }
+                    catch (Exception excpt)
+                    {
+                        MessageBox.Show(excpt.Message, "error");
+                    }
+                    finally
+                    {
+                        if (timeStampToolStripMenuItem.Checked)
+                        {
+                            DateTime dt = DateTime.Now;
+                            AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]\r\n");
+                        }
+                        if (tXToolStripMenuItem.Checked)
+                        {
+                            AppendText("[TX]\r\n");
+                        }
+                        AppendText(comboBoxCOMMAND.Text + term);
+                        comboBoxCOMMAND.Items.Insert(0, comboBoxCOMMAND.Text);
+                        // do not check the duplicated command
+                        if (comboBoxCOMMAND.Items.Count > MAX_COMMAND_HISTORY)
+                        {
+                            // remove the oldest histroy
+                            comboBoxCOMMAND.Items.RemoveAt(comboBoxCOMMAND.Items.Count-1);
+                        }
+                    }
+                }
+            }
         }
 
     }

@@ -34,7 +34,6 @@
             this.comboBoxBAUD = new System.Windows.Forms.ComboBox();
             this.comboBoxFRAME = new System.Windows.Forms.ComboBox();
             this.buttonCONNECT = new System.Windows.Forms.Button();
-            this.textBoxCOMMAND = new System.Windows.Forms.TextBox();
             this.richTextBoxSCREEN = new System.Windows.Forms.RichTextBox();
             this.comboBoxTERM = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -55,6 +54,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboBoxCOMMAND = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -101,16 +101,6 @@
             this.buttonCONNECT.Text = "connect";
             this.buttonCONNECT.UseVisualStyleBackColor = true;
             this.buttonCONNECT.Click += new System.EventHandler(this.buttonCONNECT_Click);
-            // 
-            // textBoxCOMMAND
-            // 
-            this.textBoxCOMMAND.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCOMMAND.Location = new System.Drawing.Point(13, 404);
-            this.textBoxCOMMAND.Name = "textBoxCOMMAND";
-            this.textBoxCOMMAND.Size = new System.Drawing.Size(333, 19);
-            this.textBoxCOMMAND.TabIndex = 5;
-            this.textBoxCOMMAND.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxCOMMAND_KeyPress);
             // 
             // richTextBoxSCREEN
             // 
@@ -195,7 +185,7 @@
             this.shiftJISToolStripMenuItem,
             this.uTF8ToolStripMenuItem});
             this.encodeToolStripMenuItem.Name = "encodeToolStripMenuItem";
-            this.encodeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.encodeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.encodeToolStripMenuItem.Text = "Encode";
             // 
             // aSCIIToolStripMenuItem
@@ -228,7 +218,7 @@
             this.rXToolStripMenuItem,
             this.timeStampToolStripMenuItem});
             this.identifierToolStripMenuItem.Name = "identifierToolStripMenuItem";
-            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.identifierToolStripMenuItem.Text = "Identifier";
             // 
             // tXToolStripMenuItem
@@ -255,7 +245,7 @@
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -279,16 +269,26 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "19.5.31";
+            this.toolStripMenuItem2.Text = "19.6.5";
+            // 
+            // comboBoxCOMMAND
+            // 
+            this.comboBoxCOMMAND.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.comboBoxCOMMAND.FormattingEnabled = true;
+            this.comboBoxCOMMAND.Location = new System.Drawing.Point(13, 403);
+            this.comboBoxCOMMAND.Name = "comboBoxCOMMAND";
+            this.comboBoxCOMMAND.Size = new System.Drawing.Size(333, 20);
+            this.comboBoxCOMMAND.TabIndex = 9;
+            this.comboBoxCOMMAND.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxCOMMAND_KeyPress);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 435);
+            this.Controls.Add(this.comboBoxCOMMAND);
             this.Controls.Add(this.comboBoxTERM);
             this.Controls.Add(this.richTextBoxSCREEN);
-            this.Controls.Add(this.textBoxCOMMAND);
             this.Controls.Add(this.buttonCONNECT);
             this.Controls.Add(this.comboBoxFRAME);
             this.Controls.Add(this.comboBoxBAUD);
@@ -312,7 +312,6 @@
         private System.Windows.Forms.ComboBox comboBoxBAUD;
         private System.Windows.Forms.ComboBox comboBoxFRAME;
         private System.Windows.Forms.Button buttonCONNECT;
-        private System.Windows.Forms.TextBox textBoxCOMMAND;
         private System.Windows.Forms.RichTextBox richTextBoxSCREEN;
         private System.Windows.Forms.ComboBox comboBoxTERM;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -333,6 +332,7 @@
         private System.Windows.Forms.ToolStripMenuItem tXToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rXToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem timeStampToolStripMenuItem;
+        private System.Windows.Forms.ComboBox comboBoxCOMMAND;
     }
 }
 
