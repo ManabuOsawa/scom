@@ -237,42 +237,7 @@ namespace scom
             }
         }
 
-        private void buttonCONNECT_Click(object sender, EventArgs e)
-        {
-            if (!serialPort1.IsOpen)
-            {
-                try {
-                    serialPort1.PortName = comboBoxCOM.Text;
-                    SetBaud(int.Parse(comboBoxBAUD.Text));
-                    SetFrame(comboBoxFRAME.SelectedIndex);
-
-                    serialPort1.Open();
-                    buttonCONNECT.Text = "disconnect"; 
-                    comboBoxCOM.Enabled = false;
-                }
-                catch (Exception excpt)
-                {
-                    MessageBox.Show(excpt.Message, "error");
-                }
-                
-            }
-            else
-            {
-                try
-                {
-                    serialPort1.Close();
-                }
-                catch (Exception excpt)
-                {
-                    MessageBox.Show(excpt.Message, "error");
-                }
-                finally
-                {
-                    buttonCONNECT.Text = "connect";
-                    comboBoxCOM.Enabled = true;
-                }
-            }
-        }
+        
 
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -460,9 +425,56 @@ namespace scom
                         if (comboBoxCOMMAND.Items.Count > MAX_COMMAND_HISTORY)
                         {
                             // remove the oldest histroy
-                            comboBoxCOMMAND.Items.RemoveAt(comboBoxCOMMAND.Items.Count-1);
+                            comboBoxCOMMAND.Items.RemoveAt(comboBoxCOMMAND.Items.Count - 1);
                         }
                     }
+                }
+            }
+        }
+
+        private void checkBoxCONNECT_Click(object sender, EventArgs e)
+        {
+            if (checkBoxCONNECT.Checked == false)
+            {
+                try
+                {
+                    serialPort1.PortName = comboBoxCOM.Text;
+                    SetBaud(int.Parse(comboBoxBAUD.Text));
+                    SetFrame(comboBoxFRAME.SelectedIndex);
+
+                    serialPort1.Open();
+                    if (serialPort1.IsOpen)
+                    {
+                        checkBoxCONNECT.Text = "disconnect";
+                        comboBoxCOM.Enabled = false;
+                        checkBoxCONNECT.Checked = true;
+                    }
+                    else
+                    {
+                        checkBoxCONNECT.Checked = false;
+                    }
+                }
+                catch (Exception excpt)
+                {
+                    MessageBox.Show(excpt.Message, "error");
+                }
+
+            }
+            else
+            {
+                try
+                {
+                    serialPort1.Close();
+                }
+                catch (Exception excpt)
+                {
+                    MessageBox.Show(excpt.Message, "error");
+                }
+                finally
+                {
+                    checkBoxCONNECT.Text = "connect";
+                    comboBoxCOM.Enabled = true;
+                    checkBoxCONNECT.Checked = false;
                 }
             }
         }

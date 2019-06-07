@@ -33,7 +33,6 @@
             this.comboBoxCOM = new System.Windows.Forms.ComboBox();
             this.comboBoxBAUD = new System.Windows.Forms.ComboBox();
             this.comboBoxFRAME = new System.Windows.Forms.ComboBox();
-            this.buttonCONNECT = new System.Windows.Forms.Button();
             this.richTextBoxSCREEN = new System.Windows.Forms.RichTextBox();
             this.comboBoxTERM = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -55,6 +54,7 @@
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxCOMMAND = new System.Windows.Forms.ComboBox();
+            this.checkBoxCONNECT = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,16 +91,6 @@
             this.comboBoxFRAME.Size = new System.Drawing.Size(80, 20);
             this.comboBoxFRAME.TabIndex = 3;
             this.comboBoxFRAME.SelectedIndexChanged += new System.EventHandler(this.comboBoxFRAME_SelectedIndexChanged);
-            // 
-            // buttonCONNECT
-            // 
-            this.buttonCONNECT.Location = new System.Drawing.Point(271, 37);
-            this.buttonCONNECT.Name = "buttonCONNECT";
-            this.buttonCONNECT.Size = new System.Drawing.Size(144, 23);
-            this.buttonCONNECT.TabIndex = 4;
-            this.buttonCONNECT.Text = "connect";
-            this.buttonCONNECT.UseVisualStyleBackColor = true;
-            this.buttonCONNECT.Click += new System.EventHandler(this.buttonCONNECT_Click);
             // 
             // richTextBoxSCREEN
             // 
@@ -185,20 +175,20 @@
             this.shiftJISToolStripMenuItem,
             this.uTF8ToolStripMenuItem});
             this.encodeToolStripMenuItem.Name = "encodeToolStripMenuItem";
-            this.encodeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.encodeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.encodeToolStripMenuItem.Text = "Encode";
             // 
             // aSCIIToolStripMenuItem
             // 
             this.aSCIIToolStripMenuItem.Name = "aSCIIToolStripMenuItem";
-            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aSCIIToolStripMenuItem.Text = "ASCII";
             this.aSCIIToolStripMenuItem.Click += new System.EventHandler(this.aSCIIToolStripMenuItem_Click);
             // 
             // shiftJISToolStripMenuItem
             // 
             this.shiftJISToolStripMenuItem.Name = "shiftJISToolStripMenuItem";
-            this.shiftJISToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.shiftJISToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.shiftJISToolStripMenuItem.Text = "ShiftJIS";
             this.shiftJISToolStripMenuItem.Click += new System.EventHandler(this.shiftJISToolStripMenuItem_Click);
             // 
@@ -207,7 +197,7 @@
             this.uTF8ToolStripMenuItem.Checked = true;
             this.uTF8ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uTF8ToolStripMenuItem.Name = "uTF8ToolStripMenuItem";
-            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.uTF8ToolStripMenuItem.Text = "UTF-8";
             this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.uTF8ToolStripMenuItem_Click);
             // 
@@ -218,34 +208,34 @@
             this.rXToolStripMenuItem,
             this.timeStampToolStripMenuItem});
             this.identifierToolStripMenuItem.Name = "identifierToolStripMenuItem";
-            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.identifierToolStripMenuItem.Text = "Identifier";
             // 
             // tXToolStripMenuItem
             // 
             this.tXToolStripMenuItem.Name = "tXToolStripMenuItem";
-            this.tXToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.tXToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tXToolStripMenuItem.Text = "TX";
             this.tXToolStripMenuItem.Click += new System.EventHandler(this.tXToolStripMenuItem_Click);
             // 
             // rXToolStripMenuItem
             // 
             this.rXToolStripMenuItem.Name = "rXToolStripMenuItem";
-            this.rXToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.rXToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rXToolStripMenuItem.Text = "RX";
             this.rXToolStripMenuItem.Click += new System.EventHandler(this.rXToolStripMenuItem_Click);
             // 
             // timeStampToolStripMenuItem
             // 
             this.timeStampToolStripMenuItem.Name = "timeStampToolStripMenuItem";
-            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.timeStampToolStripMenuItem.Text = "TimeStamp";
             this.timeStampToolStripMenuItem.Click += new System.EventHandler(this.timeStampToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -269,7 +259,7 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "19.6.5";
+            this.toolStripMenuItem2.Text = "19.6.7";
             // 
             // comboBoxCOMMAND
             // 
@@ -281,15 +271,28 @@
             this.comboBoxCOMMAND.TabIndex = 9;
             this.comboBoxCOMMAND.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxCOMMAND_KeyPress);
             // 
+            // checkBoxCONNECT
+            // 
+            this.checkBoxCONNECT.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBoxCONNECT.AutoCheck = false;
+            this.checkBoxCONNECT.Location = new System.Drawing.Point(275, 37);
+            this.checkBoxCONNECT.Name = "checkBoxCONNECT";
+            this.checkBoxCONNECT.Size = new System.Drawing.Size(140, 22);
+            this.checkBoxCONNECT.TabIndex = 10;
+            this.checkBoxCONNECT.Text = "connect";
+            this.checkBoxCONNECT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxCONNECT.UseVisualStyleBackColor = true;
+            this.checkBoxCONNECT.Click += new System.EventHandler(this.checkBoxCONNECT_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 435);
+            this.Controls.Add(this.checkBoxCONNECT);
             this.Controls.Add(this.comboBoxCOMMAND);
             this.Controls.Add(this.comboBoxTERM);
             this.Controls.Add(this.richTextBoxSCREEN);
-            this.Controls.Add(this.buttonCONNECT);
             this.Controls.Add(this.comboBoxFRAME);
             this.Controls.Add(this.comboBoxBAUD);
             this.Controls.Add(this.comboBoxCOM);
@@ -311,7 +314,6 @@
         private System.Windows.Forms.ComboBox comboBoxCOM;
         private System.Windows.Forms.ComboBox comboBoxBAUD;
         private System.Windows.Forms.ComboBox comboBoxFRAME;
-        private System.Windows.Forms.Button buttonCONNECT;
         private System.Windows.Forms.RichTextBox richTextBoxSCREEN;
         private System.Windows.Forms.ComboBox comboBoxTERM;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -333,6 +335,7 @@
         private System.Windows.Forms.ToolStripMenuItem rXToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem timeStampToolStripMenuItem;
         private System.Windows.Forms.ComboBox comboBoxCOMMAND;
+        private System.Windows.Forms.CheckBox checkBoxCONNECT;
     }
 }
 
