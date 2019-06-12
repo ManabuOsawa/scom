@@ -107,7 +107,7 @@
             // 
             // comboBoxTERM
             // 
-            this.comboBoxTERM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxTERM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.comboBoxTERM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTERM.FormattingEnabled = true;
             this.comboBoxTERM.Location = new System.Drawing.Point(352, 404);
@@ -175,20 +175,20 @@
             this.shiftJISToolStripMenuItem,
             this.uTF8ToolStripMenuItem});
             this.encodeToolStripMenuItem.Name = "encodeToolStripMenuItem";
-            this.encodeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.encodeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.encodeToolStripMenuItem.Text = "Encode";
             // 
             // aSCIIToolStripMenuItem
             // 
             this.aSCIIToolStripMenuItem.Name = "aSCIIToolStripMenuItem";
-            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.aSCIIToolStripMenuItem.Text = "ASCII";
             this.aSCIIToolStripMenuItem.Click += new System.EventHandler(this.aSCIIToolStripMenuItem_Click);
             // 
             // shiftJISToolStripMenuItem
             // 
             this.shiftJISToolStripMenuItem.Name = "shiftJISToolStripMenuItem";
-            this.shiftJISToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.shiftJISToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.shiftJISToolStripMenuItem.Text = "ShiftJIS";
             this.shiftJISToolStripMenuItem.Click += new System.EventHandler(this.shiftJISToolStripMenuItem_Click);
             // 
@@ -197,7 +197,7 @@
             this.uTF8ToolStripMenuItem.Checked = true;
             this.uTF8ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uTF8ToolStripMenuItem.Name = "uTF8ToolStripMenuItem";
-            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.uTF8ToolStripMenuItem.Text = "UTF-8";
             this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.uTF8ToolStripMenuItem_Click);
             // 
@@ -208,34 +208,34 @@
             this.rXToolStripMenuItem,
             this.timeStampToolStripMenuItem});
             this.identifierToolStripMenuItem.Name = "identifierToolStripMenuItem";
-            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.identifierToolStripMenuItem.Text = "Identifier";
             // 
             // tXToolStripMenuItem
             // 
             this.tXToolStripMenuItem.Name = "tXToolStripMenuItem";
-            this.tXToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tXToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.tXToolStripMenuItem.Text = "TX";
             this.tXToolStripMenuItem.Click += new System.EventHandler(this.tXToolStripMenuItem_Click);
             // 
             // rXToolStripMenuItem
             // 
             this.rXToolStripMenuItem.Name = "rXToolStripMenuItem";
-            this.rXToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rXToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.rXToolStripMenuItem.Text = "RX";
             this.rXToolStripMenuItem.Click += new System.EventHandler(this.rXToolStripMenuItem_Click);
             // 
             // timeStampToolStripMenuItem
             // 
             this.timeStampToolStripMenuItem.Name = "timeStampToolStripMenuItem";
-            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.timeStampToolStripMenuItem.Text = "TimeStamp";
             this.timeStampToolStripMenuItem.Click += new System.EventHandler(this.timeStampToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -259,7 +259,7 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "19.6.7";
+            this.toolStripMenuItem2.Text = "19.6.12";
             // 
             // comboBoxCOMMAND
             // 
@@ -275,7 +275,7 @@
             // 
             this.checkBoxCONNECT.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBoxCONNECT.AutoCheck = false;
-            this.checkBoxCONNECT.Location = new System.Drawing.Point(275, 37);
+            this.checkBoxCONNECT.Location = new System.Drawing.Point(271, 37);
             this.checkBoxCONNECT.Name = "checkBoxCONNECT";
             this.checkBoxCONNECT.Size = new System.Drawing.Size(140, 22);
             this.checkBoxCONNECT.TabIndex = 10;
