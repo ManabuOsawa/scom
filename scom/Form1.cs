@@ -74,6 +74,37 @@ namespace scom
         {
             InitializeComponent();
         }
+
+        // e.g.)
+        // input : src = "003F0D"
+        // output: dst[0] = 0x00, dst[1] = 0x3F, dst[2] = 0x0D
+        private void ConvertHexStringToByteArray(string src, byte[] dst)
+        {
+            int pos = 0;
+            for (int i = 0; i < src.Length; i += 2)
+            {
+                string s = src.Substring(i, 2);
+                dst[pos] = Convert.ToByte(s, 16);
+                pos++;
+            }
+            return;
+        }
+                
+        private bool IsHexString(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return false;
+            }
+            foreach (char c in s)
+            {
+                if (!Uri.IsHexDigit(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
                 
         delegate void AppendTextCallback(string text);
 
@@ -402,7 +433,28 @@ namespace scom
                     string term = TERMS_STR[comboBoxTERM.SelectedIndex];
                     try
                     {
-                        serialPort1.Write(comboBoxCOMMAND.Text + term);
+                        if (!checkBoxCOMMAND.Checked)
+                        {
+                            serialPort1.Write(comboBoxCOMMAND.Text + term);
+                        }
+                        else
+                        {
+                            int cmd_len = comboBoxCOMMAND.Text.Length;
+                            if (cmd_len % 2 != 0)
+                            {
+                                MessageBox.Show("length is not multiple of 2.", "warning");
+                                return;
+                            }
+                            bool is_hex = IsHexString(comboBoxCOMMAND.Text);
+                            if (!is_hex)
+                            {
+                                MessageBox.Show("invalid character is included.\r\n"+"please use 0-9, A-F, and a-f.", "warning");
+                                return;
+                            }
+                            byte[] buffer = new byte[cmd_len/2];
+                            ConvertHexStringToByteArray(comboBoxCOMMAND.Text, buffer);
+                            serialPort1.Write(buffer, 0, buffer.Length);
+                        }
                     }
                     catch (Exception excpt)
                     {
@@ -476,6 +528,18 @@ namespace scom
                     comboBoxCOM.Enabled = true;
                     checkBoxCONNECT.Checked = false;
                 }
+            }
+        }
+
+        private void checkBoxCOMMAND_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxCOMMAND.Checked)
+            {
+                comboBoxTERM.Enabled = false;
+            }
+            else
+            {
+                comboBoxTERM.Enabled = true;
             }
         }
 

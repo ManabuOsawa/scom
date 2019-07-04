@@ -55,6 +55,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxCOMMAND = new System.Windows.Forms.ComboBox();
             this.checkBoxCONNECT = new System.Windows.Forms.CheckBox();
+            this.checkBoxCOMMAND = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -259,15 +260,15 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "19.6.12";
+            this.toolStripMenuItem2.Text = "19.7.4";
             // 
             // comboBoxCOMMAND
             // 
             this.comboBoxCOMMAND.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.comboBoxCOMMAND.FormattingEnabled = true;
-            this.comboBoxCOMMAND.Location = new System.Drawing.Point(13, 403);
+            this.comboBoxCOMMAND.Location = new System.Drawing.Point(107, 403);
             this.comboBoxCOMMAND.Name = "comboBoxCOMMAND";
-            this.comboBoxCOMMAND.Size = new System.Drawing.Size(333, 20);
+            this.comboBoxCOMMAND.Size = new System.Drawing.Size(239, 20);
             this.comboBoxCOMMAND.TabIndex = 9;
             this.comboBoxCOMMAND.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxCOMMAND_KeyPress);
             // 
@@ -284,11 +285,24 @@
             this.checkBoxCONNECT.UseVisualStyleBackColor = true;
             this.checkBoxCONNECT.Click += new System.EventHandler(this.checkBoxCONNECT_Click);
             // 
+            // checkBoxCOMMAND
+            // 
+            this.checkBoxCOMMAND.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxCOMMAND.AutoSize = true;
+            this.checkBoxCOMMAND.Location = new System.Drawing.Point(13, 407);
+            this.checkBoxCOMMAND.Name = "checkBoxCOMMAND";
+            this.checkBoxCOMMAND.Size = new System.Drawing.Size(88, 16);
+            this.checkBoxCOMMAND.TabIndex = 11;
+            this.checkBoxCOMMAND.Text = "Binary Mode";
+            this.checkBoxCOMMAND.UseVisualStyleBackColor = true;
+            this.checkBoxCOMMAND.CheckedChanged += new System.EventHandler(this.checkBoxCOMMAND_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 435);
+            this.Controls.Add(this.checkBoxCOMMAND);
             this.Controls.Add(this.checkBoxCONNECT);
             this.Controls.Add(this.comboBoxCOMMAND);
             this.Controls.Add(this.comboBoxTERM);
@@ -336,6 +350,7 @@
         private System.Windows.Forms.ToolStripMenuItem timeStampToolStripMenuItem;
         private System.Windows.Forms.ComboBox comboBoxCOMMAND;
         private System.Windows.Forms.CheckBox checkBoxCONNECT;
+        private System.Windows.Forms.CheckBox checkBoxCOMMAND;
     }
 }
 
