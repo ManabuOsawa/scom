@@ -117,13 +117,12 @@ namespace scom
             }
             else
             {
-                richTextBoxSCREEN.Focus();
+                // HideSelection(false) + AppendText -> auto scroll
                 richTextBoxSCREEN.AppendText(text);
                 if (streamWriterLog != null)
                 {
                     streamWriterLog.Write(text);
                 }
-                comboBoxCOMMAND.Focus();
             }
         }
 
@@ -232,6 +231,10 @@ namespace scom
 
             comboBoxTERM.Items.AddRange(TERMS_DISP);
             comboBoxTERM.SelectedIndex = (int)TERM.CR;
+
+            // richtextbox requires "focus" for auto scroll when text is appended.
+            // however, using hideselection(false), it doesn't require.
+            richTextBoxSCREEN.HideSelection = false;
 
         }
 
@@ -472,12 +475,26 @@ namespace scom
                             AppendText("[TX]\r\n");
                         }
                         AppendText(comboBoxCOMMAND.Text + term);
-                        comboBoxCOMMAND.Items.Insert(0, comboBoxCOMMAND.Text);
-                        // do not check the duplicated command
-                        if (comboBoxCOMMAND.Items.Count > MAX_COMMAND_HISTORY)
+
+                        int found_index = comboBoxCOMMAND.Items.IndexOf(comboBoxCOMMAND.Text);
+                        if (found_index == -1)
                         {
-                            // remove the oldest histroy
-                            comboBoxCOMMAND.Items.RemoveAt(comboBoxCOMMAND.Items.Count - 1);
+                            // not found means new item
+                            // insert at top
+                            comboBoxCOMMAND.Items.Insert(0, comboBoxCOMMAND.Text);
+                            if (comboBoxCOMMAND.Items.Count > MAX_COMMAND_HISTORY)
+                            {
+                                // remove the oldest histroy
+                                comboBoxCOMMAND.Items.RemoveAt(comboBoxCOMMAND.Items.Count - 1);
+                            }
+                        }
+                        else
+                        {
+                            // found means already exist
+                            // remove the found
+                            comboBoxCOMMAND.Items.RemoveAt(found_index);
+                            // insert at top
+                            comboBoxCOMMAND.Items.Insert(0, comboBoxCOMMAND.Text);
                         }
                     }
                 }
