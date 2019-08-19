@@ -451,7 +451,7 @@ namespace scom
                             bool is_hex = IsHexString(comboBoxCOMMAND.Text);
                             if (!is_hex)
                             {
-                                MessageBox.Show("invalid character is included.\r\n"+"please use 0-9, A-F, and a-f.", "warning");
+                                MessageBox.Show("invalid character is included.\r\n"+"please use 0-9, A-F, or a-f.", "warning");
                                 return;
                             }
                             byte[] buffer = new byte[cmd_len/2];
@@ -496,6 +496,10 @@ namespace scom
                             // insert at top
                             comboBoxCOMMAND.Items.Insert(0, comboBoxCOMMAND.Text);
                         }
+                        // prepare to resend same command or delete textbox easily.
+                        // want to resend -> just push enter key
+                        // want to delete -> just push delete or backspace key
+                        comboBoxCOMMAND.SelectAll();
                     }
                 }
             }
