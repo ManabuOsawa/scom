@@ -124,7 +124,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(427, 26);
+            this.menuStrip1.Size = new System.Drawing.Size(427, 24);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -135,27 +135,27 @@
             this.logToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.transferToolStripMenuItem.Text = "Transfer[text]";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.transferToolStripMenuItem_Click);
             // 
             // logToolStripMenuItem
             // 
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-            this.logToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.logToolStripMenuItem.Text = "Log";
             this.logToolStripMenuItem.Click += new System.EventHandler(this.logToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -166,7 +166,7 @@
             this.identifierToolStripMenuItem,
             this.clearToolStripMenuItem});
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
-            this.configToolStripMenuItem.Size = new System.Drawing.Size(60, 22);
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.configToolStripMenuItem.Text = "Screen";
             // 
             // encodeToolStripMenuItem
@@ -176,20 +176,20 @@
             this.shiftJISToolStripMenuItem,
             this.uTF8ToolStripMenuItem});
             this.encodeToolStripMenuItem.Name = "encodeToolStripMenuItem";
-            this.encodeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.encodeToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.encodeToolStripMenuItem.Text = "Encode";
             // 
             // aSCIIToolStripMenuItem
             // 
             this.aSCIIToolStripMenuItem.Name = "aSCIIToolStripMenuItem";
-            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.aSCIIToolStripMenuItem.Text = "ASCII";
             this.aSCIIToolStripMenuItem.Click += new System.EventHandler(this.aSCIIToolStripMenuItem_Click);
             // 
             // shiftJISToolStripMenuItem
             // 
             this.shiftJISToolStripMenuItem.Name = "shiftJISToolStripMenuItem";
-            this.shiftJISToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.shiftJISToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.shiftJISToolStripMenuItem.Text = "ShiftJIS";
             this.shiftJISToolStripMenuItem.Click += new System.EventHandler(this.shiftJISToolStripMenuItem_Click);
             // 
@@ -198,7 +198,7 @@
             this.uTF8ToolStripMenuItem.Checked = true;
             this.uTF8ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uTF8ToolStripMenuItem.Name = "uTF8ToolStripMenuItem";
-            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.uTF8ToolStripMenuItem.Text = "UTF-8";
             this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.uTF8ToolStripMenuItem_Click);
             // 
@@ -209,34 +209,34 @@
             this.rXToolStripMenuItem,
             this.timeStampToolStripMenuItem});
             this.identifierToolStripMenuItem.Name = "identifierToolStripMenuItem";
-            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.identifierToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.identifierToolStripMenuItem.Text = "Identifier";
             // 
             // tXToolStripMenuItem
             // 
             this.tXToolStripMenuItem.Name = "tXToolStripMenuItem";
-            this.tXToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.tXToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.tXToolStripMenuItem.Text = "TX";
             this.tXToolStripMenuItem.Click += new System.EventHandler(this.tXToolStripMenuItem_Click);
             // 
             // rXToolStripMenuItem
             // 
             this.rXToolStripMenuItem.Name = "rXToolStripMenuItem";
-            this.rXToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.rXToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.rXToolStripMenuItem.Text = "RX";
             this.rXToolStripMenuItem.Click += new System.EventHandler(this.rXToolStripMenuItem_Click);
             // 
             // timeStampToolStripMenuItem
             // 
             this.timeStampToolStripMenuItem.Name = "timeStampToolStripMenuItem";
-            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.timeStampToolStripMenuItem.Text = "TimeStamp";
             this.timeStampToolStripMenuItem.Click += new System.EventHandler(this.timeStampToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -245,7 +245,7 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.versionToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(46, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // versionToolStripMenuItem
@@ -253,14 +253,14 @@
             this.versionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2});
             this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
-            this.versionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.versionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.versionToolStripMenuItem.Text = "Version";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "19.8.19";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "19.10.9";
             // 
             // comboBoxCOMMAND
             // 

@@ -521,6 +521,7 @@ namespace scom
                         checkBoxCONNECT.Text = "disconnect";
                         comboBoxCOM.Enabled = false;
                         checkBoxCONNECT.Checked = true;
+                        comboBoxCOMMAND.Focus();
                     }
                     else
                     {
@@ -563,7 +564,6 @@ namespace scom
                 comboBoxTERM.Enabled = true;
             }
         }
-
     }
 }
 
