@@ -13,8 +13,11 @@ using System.IO.Ports;
 namespace scom
 {
     
+    
     public partial class Form1 : Form
     {
+        
+
         // constants
         enum BAUD
         {
@@ -271,13 +274,141 @@ namespace scom
             }
         }
 
-        
+
+        // マルチバイト文字を分割受信（複数回のDataRecivedで完結）する場合を考える。
+        // マルチバイト文字を構成するデータを一時的に格納するバッファ
+        // UTF-8の4バイトを最大としておく。
+        private byte[] m_recv_multibyte_chara_data= new byte[4];
+        // マルチバイト文字を構成するデータを何バイト格納したか
+        private int m_recv_multibyte_chara_len = 0;
+        // マルチバイト文字は何バイトから成るか
+        private int m_recv_chara_len = 1;
 
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            int nums = serialPort1.BytesToRead;
-            byte[] buffer = new byte[nums];
-            serialPort1.Read(buffer, 0, nums);
+            int cnt = 0;
+            byte[] buffer = new byte[1024];
+            int remove_len = 0; // 受信し切っていないマルチバイト文字の構成データは表示しないようにする
+        
+            cnt = serialPort1.BytesToRead;
+            if (cnt < 1)
+            {
+                return;
+            }
+            else
+            {
+                if (aSCIIToolStripMenuItem.Checked || binaryToolStripMenuItem.Checked)
+                {
+                    m_recv_chara_len = 1;
+                    m_recv_multibyte_chara_len = 0;
+                    remove_len = 0;
+                    serialPort1.Read(buffer, 0, cnt);
+                } else {
+                    // マルチバイト文字受信中であれば、受信済みのデータを加える。
+                    int offset = 0;
+                    if (m_recv_multibyte_chara_len > 0)
+                    {
+                        Array.Copy(m_recv_multibyte_chara_data, buffer, m_recv_multibyte_chara_len);
+                        offset = m_recv_multibyte_chara_len;
+                    }
+                    serialPort1.Read(buffer, offset, cnt);
+
+                    for (int i = 0 + offset; i < cnt + offset; i++)
+                    {
+                        if (shiftJISToolStripMenuItem.Checked)
+                        {
+                            // 2byte文字の先頭バイト受信済み
+                            if (m_recv_multibyte_chara_len == 1)
+                            {
+                                // 2byte目のチェックなし。
+                                // 仕様上は 0x40-0x7E, 0x80-0xFC
+                                for (int j = 0; j < m_recv_multibyte_chara_data.Length; j++)
+                                {
+                                    m_recv_multibyte_chara_data[j] = 0x00;
+                                }
+                                m_recv_multibyte_chara_len = 0;
+                                remove_len = 0;
+                            }
+                            else
+                            {
+                                // 2byte文字の先頭バイトかチェック
+                                if ((buffer[i] >= 0x81 && buffer[i] <= 0x9f) ||
+                                    (buffer[i] >= 0xe0 && buffer[i] <= 0xef))
+                                {
+                                    m_recv_chara_len = 2;
+                                    m_recv_multibyte_chara_len = 1;
+                                    remove_len = 1;
+                                    m_recv_multibyte_chara_data[0] = buffer[i];
+                                }
+                                else
+                                {
+                                    m_recv_chara_len = 1;
+                                    m_recv_multibyte_chara_len = 0;
+                                    remove_len = 0;
+                                    
+                                }
+                            }
+                            
+                        }
+                        else
+                        {
+                            // 何バイトの文字かチェック
+                            if (buffer[i] >= 0x00 && buffer[i] <= 0x7f)
+                            {
+                                m_recv_chara_len = 1;
+                                m_recv_multibyte_chara_len = 0;
+                                remove_len = 0;
+                            }
+                            else if (buffer[i] >= 0xc0 && buffer[i] <= 0xdf)
+                            {
+                                m_recv_chara_len = 2;
+                                m_recv_multibyte_chara_len = 1;
+                                remove_len = 1;
+                                m_recv_multibyte_chara_data[0] = buffer[i];
+                            }
+                            else if (buffer[i] >= 0xe0 && buffer[i] <= 0xef)
+                            {
+                                m_recv_chara_len = 3;
+                                m_recv_multibyte_chara_len = 1;
+                                remove_len = 1;
+                                m_recv_multibyte_chara_data[0] = buffer[i];
+                            }
+                            else if (buffer[i] >= 0xf0 && buffer[i] <= 0xff)
+                            {
+                                m_recv_chara_len = 4;
+                                m_recv_multibyte_chara_len = 1;
+                                remove_len = 1;
+                                m_recv_multibyte_chara_data[0] = buffer[i];
+                            }
+                            else
+                            {
+                                m_recv_multibyte_chara_data[m_recv_multibyte_chara_len] = buffer[i];
+                                m_recv_multibyte_chara_len++;
+                                remove_len++;
+                                if (m_recv_multibyte_chara_len == m_recv_chara_len)
+                                {
+                                    for (int j = 0; j < m_recv_multibyte_chara_data.Length; j++)
+                                    {
+                                        m_recv_multibyte_chara_data[j] = 0x00;
+                                    }
+                                    m_recv_multibyte_chara_len = 0;
+                                    remove_len = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (remove_len > 0)
+            {
+                if (cnt - remove_len < 1)
+                {
+                    return;
+                }
+                buffer[cnt - remove_len] = 0;
+            }
+            
             string text;
 
             if (aSCIIToolStripMenuItem.Checked)
@@ -288,9 +419,21 @@ namespace scom
             {
                 text = Encoding.GetEncoding("shift_jis").GetString(buffer);
             }
-            else
+            else if (uTF8ToolStripMenuItem.Checked)
             {
                 text = Encoding.UTF8.GetString(buffer);
+            } 
+            else 
+            {
+                text = "";
+                for (int i=0; i<cnt; i++)
+                {
+                    // 例) 1 2 3 CR LF -> <31> <32> <33> <0D> <0A> 
+                    text += "<";
+                    text += buffer[i].ToString("X2");
+                    text += ">";
+                    text += " ";
+                }
             }
 
             if (timeStampToolStripMenuItem.Checked)
@@ -328,6 +471,11 @@ namespace scom
         }
 
         private void uTF8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectCheckedItem_Encode(sender);
+        }
+
+        private void binaryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SelectCheckedItem_Encode(sender);
         }
@@ -564,6 +712,8 @@ namespace scom
                 comboBoxTERM.Enabled = true;
             }
         }
+
+        
     }
 }
 
