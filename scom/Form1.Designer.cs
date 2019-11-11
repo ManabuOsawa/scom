@@ -45,6 +45,7 @@
             this.aSCIIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shiftJISToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.identifierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +57,6 @@
             this.comboBoxCOMMAND = new System.Windows.Forms.ComboBox();
             this.checkBoxCONNECT = new System.Windows.Forms.CheckBox();
             this.checkBoxCOMMAND = new System.Windows.Forms.CheckBox();
-            this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -204,6 +204,13 @@
             this.uTF8ToolStripMenuItem.Text = "UTF-8";
             this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.uTF8ToolStripMenuItem_Click);
             // 
+            // binaryToolStripMenuItem
+            // 
+            this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
+            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.binaryToolStripMenuItem.Text = "Binary";
+            this.binaryToolStripMenuItem.Click += new System.EventHandler(this.binaryToolStripMenuItem_Click);
+            // 
             // identifierToolStripMenuItem
             // 
             this.identifierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -217,21 +224,21 @@
             // tXToolStripMenuItem
             // 
             this.tXToolStripMenuItem.Name = "tXToolStripMenuItem";
-            this.tXToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.tXToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tXToolStripMenuItem.Text = "TX";
             this.tXToolStripMenuItem.Click += new System.EventHandler(this.tXToolStripMenuItem_Click);
             // 
             // rXToolStripMenuItem
             // 
             this.rXToolStripMenuItem.Name = "rXToolStripMenuItem";
-            this.rXToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.rXToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.rXToolStripMenuItem.Text = "RX";
             this.rXToolStripMenuItem.Click += new System.EventHandler(this.rXToolStripMenuItem_Click);
             // 
             // timeStampToolStripMenuItem
             // 
             this.timeStampToolStripMenuItem.Name = "timeStampToolStripMenuItem";
-            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.timeStampToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.timeStampToolStripMenuItem.Text = "TimeStamp";
             this.timeStampToolStripMenuItem.Click += new System.EventHandler(this.timeStampToolStripMenuItem_Click);
             // 
@@ -262,7 +269,7 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem2.Text = "19.11.6";
+            this.toolStripMenuItem2.Text = "19.11.11";
             // 
             // comboBoxCOMMAND
             // 
@@ -298,13 +305,6 @@
             this.checkBoxCOMMAND.Text = "Binary Mode";
             this.checkBoxCOMMAND.UseVisualStyleBackColor = true;
             this.checkBoxCOMMAND.CheckedChanged += new System.EventHandler(this.checkBoxCOMMAND_CheckedChanged);
-            // 
-            // binaryToolStripMenuItem
-            // 
-            this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
-            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.binaryToolStripMenuItem.Text = "Binary";
-            this.binaryToolStripMenuItem.Click += new System.EventHandler(this.binaryToolStripMenuItem_Click);
             // 
             // Form1
             // 

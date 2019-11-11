@@ -16,9 +16,20 @@ namespace scom
     
     public partial class Form1 : Form
     {
-        
+
 
         // constants
+        public const byte C_NUL = 0x00;
+        public const byte C_STX = 0x02;
+        public const byte C_ETX = 0x03;
+        public const byte C_ACK = 0x06;
+        public const byte C_HT = 0x09;
+        public const byte C_LF = 0x0A;
+        public const byte C_CR = 0x0D;
+        public const byte C_NAK = 0x15;
+        public const byte C_ESC = 0x1B;
+
+                     
         enum BAUD
         {
             B1200 = 0,
@@ -281,40 +292,40 @@ namespace scom
         private byte[] m_recv_multibyte_chara_data= new byte[4];
         // マルチバイト文字を構成するデータを何バイト格納したか
         private int m_recv_multibyte_chara_len = 0;
-        // マルチバイト文字は何バイトから成るか
-        private int m_recv_chara_len = 1;
-
+        
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            int cnt = 0;
-            byte[] buffer = new byte[1024];
+            int bytes_to_read = 0;
+            int buffer_len = 0;
+            byte[] buffer;// = new byte[1024];
             int remove_len = 0; // 受信し切っていないマルチバイト文字の構成データは表示しないようにする
-        
-            cnt = serialPort1.BytesToRead;
-            if (cnt < 1)
+            int bytes_of_charaset = 1; // 受信した文字は何バイトから成るか（Shift_JISは1～2、UTF-8は1～4、その他は1）
+
+            bytes_to_read = serialPort1.BytesToRead;
+            if (bytes_to_read < 1)
             {
                 return;
             }
             else
             {
+                int offset = m_recv_multibyte_chara_len;
+                buffer_len = bytes_to_read + offset;
+                buffer = new byte[buffer_len];
+                m_recv_multibyte_chara_len = 0;
+
                 if (aSCIIToolStripMenuItem.Checked || binaryToolStripMenuItem.Checked)
                 {
-                    m_recv_chara_len = 1;
-                    m_recv_multibyte_chara_len = 0;
-                    remove_len = 0;
-                    serialPort1.Read(buffer, 0, cnt);
+                    serialPort1.Read(buffer, 0, bytes_to_read);
                 } else {
-                    // マルチバイト文字受信中であれば、受信済みのデータを加える。
-                    int offset = 0;
-                    if (m_recv_multibyte_chara_len > 0)
-                    {
-                        Array.Copy(m_recv_multibyte_chara_data, buffer, m_recv_multibyte_chara_len);
-                        offset = m_recv_multibyte_chara_len;
-                    }
-                    serialPort1.Read(buffer, offset, cnt);
+                    // マルチバイト文字の受信が完了していなければ、受信済みのデータを加える。
+                    Array.Copy(m_recv_multibyte_chara_data, buffer, offset);
+                    serialPort1.Read(buffer, offset, bytes_to_read);
 
-                    for (int i = 0 + offset; i < cnt + offset; i++)
+                    Console.WriteLine("data->in({0}bytes, offset{1})", bytes_to_read, offset);
+
+                    for (int i = 0; i < buffer_len; i++)
                     {
+                        Console.WriteLine("buffer[{0}]={1}", i, buffer[i]);
                         if (shiftJISToolStripMenuItem.Checked)
                         {
                             // 2byte文字の先頭バイト受信済み
@@ -335,14 +346,14 @@ namespace scom
                                 if ((buffer[i] >= 0x81 && buffer[i] <= 0x9f) ||
                                     (buffer[i] >= 0xe0 && buffer[i] <= 0xef))
                                 {
-                                    m_recv_chara_len = 2;
+                                    bytes_of_charaset = 2;
                                     m_recv_multibyte_chara_len = 1;
                                     remove_len = 1;
                                     m_recv_multibyte_chara_data[0] = buffer[i];
                                 }
                                 else
                                 {
-                                    m_recv_chara_len = 1;
+                                    bytes_of_charaset = 1;
                                     m_recv_multibyte_chara_len = 0;
                                     remove_len = 0;
                                     
@@ -355,27 +366,27 @@ namespace scom
                             // 何バイトの文字かチェック
                             if (buffer[i] >= 0x00 && buffer[i] <= 0x7f)
                             {
-                                m_recv_chara_len = 1;
+                                bytes_of_charaset = 1;
                                 m_recv_multibyte_chara_len = 0;
                                 remove_len = 0;
                             }
                             else if (buffer[i] >= 0xc0 && buffer[i] <= 0xdf)
                             {
-                                m_recv_chara_len = 2;
+                                bytes_of_charaset = 2;
                                 m_recv_multibyte_chara_len = 1;
                                 remove_len = 1;
                                 m_recv_multibyte_chara_data[0] = buffer[i];
                             }
                             else if (buffer[i] >= 0xe0 && buffer[i] <= 0xef)
                             {
-                                m_recv_chara_len = 3;
+                                bytes_of_charaset = 3;
                                 m_recv_multibyte_chara_len = 1;
                                 remove_len = 1;
                                 m_recv_multibyte_chara_data[0] = buffer[i];
                             }
                             else if (buffer[i] >= 0xf0 && buffer[i] <= 0xff)
                             {
-                                m_recv_chara_len = 4;
+                                bytes_of_charaset = 4;
                                 m_recv_multibyte_chara_len = 1;
                                 remove_len = 1;
                                 m_recv_multibyte_chara_data[0] = buffer[i];
@@ -385,8 +396,9 @@ namespace scom
                                 m_recv_multibyte_chara_data[m_recv_multibyte_chara_len] = buffer[i];
                                 m_recv_multibyte_chara_len++;
                                 remove_len++;
-                                if (m_recv_multibyte_chara_len == m_recv_chara_len)
+                                if (m_recv_multibyte_chara_len == bytes_of_charaset)
                                 {
+                                    Console.WriteLine("utf-8->done:" + System.Text.Encoding.UTF8.GetString(m_recv_multibyte_chara_data, 0, 3));
                                     for (int j = 0; j < m_recv_multibyte_chara_data.Length; j++)
                                     {
                                         m_recv_multibyte_chara_data[j] = 0x00;
@@ -402,13 +414,29 @@ namespace scom
 
             if (remove_len > 0)
             {
-                if (cnt - remove_len < 1)
+                Console.WriteLine("remove->{0}byte", remove_len);
+                if (buffer_len - remove_len < 1)
                 {
+                    Console.WriteLine("multibytes charaset->not completed");
                     return;
                 }
-                buffer[cnt - remove_len] = 0;
+                buffer_len -= remove_len;
             }
-            
+
+            // convert CR/LF
+            // CRLFが一度に受信と1行改行だが、CR、LFと別々に受信すると2行改行してしまうので、
+            // 見た目を揃えるためにLFをCRに置換する。CRLFはCRCRとなり2行改行する。
+            // ただし、バイナリモードは置換しない。
+            if (binaryToolStripMenuItem.Checked == false) { 
+                for (int i=0; i<buffer_len; i++)
+                {
+                    if (buffer[i] == C_LF)
+                    {
+                        buffer[i] = C_CR;
+                    }
+                }
+            }
+
             string text;
 
             if (aSCIIToolStripMenuItem.Checked)
@@ -417,16 +445,22 @@ namespace scom
             }
             else if (shiftJISToolStripMenuItem.Checked)
             {
-                text = Encoding.GetEncoding("shift_jis").GetString(buffer);
+                text = Encoding.GetEncoding("shift_jis").GetString(buffer, 0, buffer_len);
             }
             else if (uTF8ToolStripMenuItem.Checked)
             {
-                text = Encoding.UTF8.GetString(buffer);
+                text = Encoding.UTF8.GetString(buffer, 0, buffer_len);
+                Console.WriteLine("src bytes");
+                for (int i = 0; i < buffer_len; i++) { 
+                        Console.WriteLine(" buffer[{0}]={1}", i, buffer[i]);
+                }
+                Console.WriteLine("dst string");
+                Console.WriteLine(" " + text);
             } 
             else 
             {
                 text = "";
-                for (int i=0; i<cnt; i++)
+                for (int i=0; i< buffer_len; i++)
                 {
                     // 例) 1 2 3 CR LF -> <31> <32> <33> <0D> <0A> 
                     text += "<";
@@ -439,12 +473,21 @@ namespace scom
             if (timeStampToolStripMenuItem.Checked)
             {
                 DateTime dt = DateTime.Now;
-                AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]\r\n");
+                if (rXToolStripMenuItem.Checked)
+                {
+                    AppendText("\r\n[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "][RX]\r\n");
+                }
+                else
+                {
+                    AppendText("\r\n[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]\r\n");
+                }
             }
-                        
-            if (rXToolStripMenuItem.Checked)
+            else
             {
-                AppendText("[RX]\r\n");
+                if (rXToolStripMenuItem.Checked)
+                {
+                    AppendText("\r\n[RX]\r\n");
+                }
             }
             AppendText(text);
         }
@@ -616,11 +659,21 @@ namespace scom
                         if (timeStampToolStripMenuItem.Checked)
                         {
                             DateTime dt = DateTime.Now;
-                            AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]\r\n");
+                            if (tXToolStripMenuItem.Checked)
+                            {
+                                AppendText("\r\n[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "][TX]\r\n");
+                            }
+                            else
+                            {
+                                AppendText("\r\n[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]\r\n");
+                            }
                         }
-                        if (tXToolStripMenuItem.Checked)
+                        else
                         {
-                            AppendText("[TX]\r\n");
+                            if (tXToolStripMenuItem.Checked)
+                            {
+                                AppendText("\r\n[TX]\r\n");
+                            }
                         }
                         AppendText(comboBoxCOMMAND.Text + term);
 
@@ -712,8 +765,6 @@ namespace scom
                 comboBoxTERM.Enabled = true;
             }
         }
-
-        
     }
 }
 
